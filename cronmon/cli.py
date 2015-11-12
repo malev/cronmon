@@ -1,5 +1,6 @@
 import argparse
 import datetime
+import errno
 import json
 import os
 import subprocess
@@ -17,11 +18,23 @@ examples:
 """
 
 
-def store(content, **kwargs):
-    output = kwargs.get('output', '~/cronmon')
+def mkdir_p(path):
+    """ 'mkdir -p' in Python """
+    try:
+        os.makedirs(path)
+    except OSError as exc:  # Python >2.5
+        if exc.errno == errno.EEXIST and os.path.isdir(path):
+            pass
+        else:
+            raise
+
+
+def store(content, *args, **kwargs):
     name = kwargs.get('name', 'default')
+    output_dir = os.path.join(kwargs['location'], name)
+    mkdir_p(output_dir)
     logfilename = str(int(time.time())) + '.json'
-    with(os.path.join(output, name, logfilename)) as logfile:
+    with open(os.path.join(output_dir, logfilename), 'w') as logfile:
         logfile.write(content)
 
 
@@ -37,17 +50,17 @@ def execute(command, **kwargs):
     status = process.returncode
     store(json.dumps({
         'status': status,
-        'content': stdout.read(),
-        'error': stderr.read(),
+        'content': stdout,
+        'error': stderr,
         'created_at': datetime.datetime.today().strftime("%Y-%m-%d-%H-%M")
     }), **kwargs)
 
 
 def start(args):
     if not sys.stdin.isatty():
-        store(sys.stdin.read(), name=args.name, output=args.output)
+        store(sys.stdin.read(), name=args.name, location=args.location)
     else:
-        store(execute(args.command), name=args.name, output=args.output)
+        execute(args.command, name=args.name, location=args.location)
 
 
 def main():
@@ -61,7 +74,7 @@ def main():
         '-n',
         '--name',
         action='store',
-        default=None,
+        default='default',
         help='Name of the crontask to monitor'
     )
     parser.add_argument(
@@ -71,10 +84,10 @@ def main():
         help='Command to execute'
     )
     parser.add_argument(
-        '-o',
-        '--output',
+        '-l',
+        '--location',
         action='store',
-        default='~/cronmon',
+        required=True,
         help="Directory where logfiles will be store"
     )
     args = parser.parse_args()
