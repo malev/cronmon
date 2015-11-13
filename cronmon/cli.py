@@ -46,12 +46,15 @@ def execute(command, **kwargs):
         stderr=subprocess.STDOUT,
         universal_newlines=True
     )
+    start = time.time()
     stdout, stderr = process.communicate()
+    end = time.time()
     status = process.returncode
     store(json.dumps({
         'status': status,
         'content': stdout,
         'error': stderr,
+        'elapsed_time': int(end - start),
         'created_at': datetime.datetime.today().strftime("%Y-%m-%d-%H-%M")
     }), **kwargs)
 
