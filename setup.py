@@ -8,10 +8,10 @@ setuptools.setup(
     author="Marcos Vanetta",
     author_email="marcosvanetta@gmail.com",
     description="Monitor your crontasks",
-    long_description=open('README.rst').read(),
+    long_description=open('README.md').read(),
     packages=setuptools.find_packages(),
     scripts=['bin/cronmon'],
-    install_requires=[],
+    install_requires=['click'],
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
         'Programming Language :: Python',

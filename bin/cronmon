@@ -2,5 +2,6 @@
 
 import sys
 from cronmon.cli import main
+import click
 
 sys.exit(main())
