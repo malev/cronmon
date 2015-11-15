@@ -11,7 +11,7 @@ setuptools.setup(
     long_description=open('README.md').read(),
     packages=setuptools.find_packages(),
     scripts=['bin/cronmon'],
-    install_requires=['click'],
+    install_requires=['click', 'flask', 'jinja2'],
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
         'Programming Language :: Python',

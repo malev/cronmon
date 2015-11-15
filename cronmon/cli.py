@@ -40,8 +40,10 @@ def log():
 
 
 @cli.command()
-def server():
-    cserver.start()
+@click.option('-p', '--port', help='Port number', required=False, default=5000)
+@click.option('-l', '--location', help='Directory where logfiles are stored', required=True)
+def server(port, location):
+    cserver.start(port, location)
 
 
 def main():
