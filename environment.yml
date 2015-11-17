@@ -1,0 +1,6 @@
+name: cronmon
+dependecies:
+  - click
+  - flask
+  - jinja2
+  - python=2.7
