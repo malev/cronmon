@@ -35,8 +35,13 @@ def run(command, location, name):
 
 
 @cli.command()
-def log():
-    clog.start()
+@click.option('-n', '--number', help='Number of log to show', required=False, default=None)
+@click.option(
+    '-l', '--location', help='Directory where logfiles will be store',
+    required=False, default="~/cronmon")
+@click.argument('name')
+def log(number, name):
+    clog.start(name, number)
 
 
 @cli.command()
