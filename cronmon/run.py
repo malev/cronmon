@@ -54,7 +54,10 @@ def execute(command, **kwargs):
 
 def start(command, location, name):
     if not sys.stdin.isatty():
-        store(sys.stdin.read(), name=name, location=location)
+        content = json.dumps({
+            'content': sys.stdin.read()
+        })
+        store(content, name=name, location=location)
     else:
         execute(command, name=name, location=location)
 
