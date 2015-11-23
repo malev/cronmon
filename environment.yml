@@ -3,4 +3,5 @@ dependencies:
   - click
   - flask
   - jinja2
+  - pyyaml
   - python=2.7

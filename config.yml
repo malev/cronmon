@@ -1,0 +1,4 @@
+name: cronmon
+command: ls 
+location: /Users/malev/tmp
+on_fail: ls

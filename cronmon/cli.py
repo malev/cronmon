@@ -9,7 +9,6 @@ Monitor and log your crontasks
 
 example = """
 examples:
-    your-script.sh arguments | cronmon -l ~/cronmon your-project
     conrmon -c "your-script.sh arguments" your-project
     cronmon -c "script.sh" -l ~/cronmon -f "fail-script.sh"
 """
@@ -29,11 +28,19 @@ def cli():
 
 @cli.command()
 @click.option('-c', '--command', help='Command to execute', required=False, default=None)
-@click.option('-l', '--location', help='Directory where logfiles will be store', required=True)
+@click.option(
+    '-l', '--location', help='location where logfiles will be store', required=False, default=None)
 @click.option('-f', '--on-fail', help='When failing run', required=False, default=None)
-@click.argument('name')
-def run(command, location, on_fail, name):
-    crun.start(command, location, on_fail, name)
+@click.option('--config', help='Configuration file', required=False, default=None)
+@click.option('-n', '--name', required=False, default='default')
+def run(command, location, on_fail, config, name):
+    crun.start(
+        command=command,
+        location=location,
+        on_fail=on_fail,
+        config=config,
+        name=name
+    )
 
 
 @cli.command()
