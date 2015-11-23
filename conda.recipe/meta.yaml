@@ -1,6 +1,7 @@
+{% set data = load_setuptools()%}
 package:
   name: cronmon
-  version: "0.2.0"
+  version: {{data.get('version')}}
 
 build:
   script: python setup.py install
@@ -21,4 +22,5 @@ source:
   path: ../
 
 about:
-  home: https://github.com/malev/cronmon
+  home: {{data.get('url')}}
+  license: {{data.get('license')}}

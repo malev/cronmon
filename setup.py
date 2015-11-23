@@ -1,8 +1,10 @@
 import setuptools
+import versioneer
 
 setuptools.setup(
     name="cronmon",
-    version="0.1.0",
+    version=versioneer.get_version(),
+    cmdclass=versioneer.get_cmdclass(),
     url="https://github.com/malev/cronmon",
 
     author="Marcos Vanetta",

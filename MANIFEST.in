@@ -1,0 +1,2 @@
+include versioneer.py
+include cronmon/_version.py
