@@ -11,8 +11,9 @@ cronmon --command "script.sh" --location ~/cronmon --on-fail "fail-script.sh"
 ## TODO
 
 * ~~Store how much time does a task has taken~~
-* On failure do
+* ~~On failure do~~
 * Configuration file
+* Log into a single file
 * Log into a database (SQL)
 * Web server
 
