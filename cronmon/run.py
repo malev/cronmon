@@ -50,16 +50,18 @@ def execute(command, **kwargs):
         'elapsed_time': int(end - start),
         'created_at': datetime.datetime.today().strftime("%Y-%m-%d-%H-%M")
     }), **kwargs)
+    return status == 0
 
 
-def start(command, location, name):
+def start(command, location, on_fail=None, name=None):
     if not sys.stdin.isatty():
         content = json.dumps({
             'content': sys.stdin.read()
         })
         store(content, name=name, location=location)
     else:
-        execute(command, name=name, location=location)
+        if on_fail is not None and not execute(command, name=name, location=location):
+            subprocess.call(on_fail)
 
 
 if __name__ == '__main__':

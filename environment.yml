@@ -1,5 +1,5 @@
 name: cronmon
-dependecies:
+dependencies:
   - click
   - flask
   - jinja2
