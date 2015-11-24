@@ -8,6 +8,14 @@ platform:
 engine:
   - python=2.7
 
+install:
+  - conda build conda.recipe
+  - conda install cronmon --use-local
+
+test:
+  - cronmon --help
+  - cronmon run -c ls -n ls -l ./
+
 script:
   - conda build --no-test ./conda.recipe/
 
