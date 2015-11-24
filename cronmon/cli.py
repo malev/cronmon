@@ -3,25 +3,20 @@ import run as crun
 import log as clog
 import server as cserver
 
-description = """
-Monitor and log your crontasks
-"""
-
-example = """
-examples:
-    conrmon -c "your-script.sh arguments" your-project
-    cronmon -c "script.sh" -l ~/cronmon -f "fail-script.sh"
-"""
-
 
 @click.group()
 def cli():
     """
-    Monitor and log your crontasks
+    CronMon helps you monitor your cron tasks. Helps you handle the logging
+    and provides you a callback to know when something is wrong. It also
+    has a small webserver to help you navigate your logs.
 
-    examples:
-        your-script.sh arguments | cronmon -l ~/cronmon your-project
-        conrmon -c "your-script.sh arguments" your-project
+    Examples:\n
+        cronmon -c your-script.sh
+
+        cronmon -c your-script.sh -n your-project -f fail-script.sh
+
+        cronmon --config config.yml
     """
     pass
 

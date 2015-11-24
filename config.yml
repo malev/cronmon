@@ -1,4 +1,5 @@
 name: cronmon
-command: ls 
+command: ls
 location: /Users/malev/tmp
 on_fail: ls
+one_file: true
