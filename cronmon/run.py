@@ -23,18 +23,9 @@ def mkdir_p(path):
             raise
 
 
-def store(content, *args, **kwargs):
-    name = kwargs.get('name', 'default')
-    output_dir = os.path.join(kwargs['location'], name)
-    mkdir_p(output_dir)
-    logfilename = str(int(time.time())) + '.json'
-    with open(os.path.join(output_dir, logfilename), 'w') as logfile:
-        logfile.write(content)
-
-
-def execute(command, **kwargs):
+def execute(config):
     process = subprocess.Popen(
-        command,
+        config.command,
         shell=True,
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT,
@@ -44,14 +35,19 @@ def execute(command, **kwargs):
     stdout, stderr = process.communicate()
     end = time.time()
     status = process.returncode
-    store(json.dumps({
+    try:
+        content = json.loads(stdout)
+    except ValueError:
+        content = stdout
+
+    Storer(config).store(json.dumps({
         'success': check_success(status),
         'status': status,
-        'content': stdout,
+        'content': content,
         'error': stderr,
         'elapsed_time': int(end - start),
         'created_at': datetime.datetime.today().strftime("%Y-%m-%d-%H-%M")
-    }), **kwargs)
+    }))
     return status == 0
 
 
@@ -130,7 +126,7 @@ class Config(object):
 def start(**kwargs):
     c = Config(**kwargs)
 
-    if not execute(c.command, name=c.name, location=c.location):
+    if not execute(c):
         if c.has_on_fail():
             subprocess.call(c.on_fail)
 
