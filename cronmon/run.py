@@ -67,9 +67,9 @@ class Storer(object):
 
     def append(self, content):
         append_file = self.config.name + '.log'
-        mkdir_p(self.location)
-        with open(os.path.join(self.location, append_file), 'a') as logfile:
-            logfile.write(content)
+        mkdir_p(self.config.location)
+        with open(os.path.join(self.config.location, append_file), 'a') as logfile:
+            logfile.write(content + '\n')
 
     def log(self, content):
         logfilename = str(int(time.time())) + '.json'
