@@ -59,6 +59,30 @@ def check_success(status):
     return int(status) == 0
 
 
+class Storer(object):
+    def __init__(self, config):
+        self.config = config
+
+    def store(self, content):
+        if self.config.one_file:
+            self.append(content)
+        else:
+            self.log(content)
+
+    def append(self, content):
+        append_file = self.config.name + '.log'
+        mkdir_p(self.location)
+        with open(os.path.join(self.location, append_file), 'a') as logfile:
+            logfile.write(content)
+
+    def log(self, content):
+        logfilename = str(int(time.time())) + '.json'
+        output_dir = os.path.join(self.config.location, self.config.name)
+        mkdir_p(output_dir)
+        with open(os.path.join(output_dir, logfilename), 'w') as logfile:
+            logfile.write(content)
+
+
 class Config(object):
     '''
     Returns configuration whether are coming from
@@ -67,7 +91,8 @@ class Config(object):
     '''
     def __init__(self, **config):
         self._command = config.get('command')
-        self._location = config.get('location', '~')
+        self._location = config.get('location', os.path.expanduser('~'))
+        self._one_file = config.get('one_file', False)
         self._on_fail = config.get('on_fail')
         self._name = config.get('name')
         if self._name is None:
@@ -89,6 +114,10 @@ class Config(object):
     @property
     def on_fail(self):
         return self.config.get('on_fail', self._on_fail)
+
+    @property
+    def one_file(self):
+        return self.config.get('one_file', self._one_file)
 
     @property
     def name(self):
