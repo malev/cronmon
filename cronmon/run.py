@@ -92,6 +92,7 @@ class Config(object):
             self._location = os.path.expanduser('~')
         self._one_file = config.get('one_file', False)
         self._on_fail = config.get('on_fail')
+        self._on_success = config.get('on_success')
         self._name = config.get('name')
         if self._name is None:
             self._name = 'default'
@@ -114,6 +115,10 @@ class Config(object):
         return self.config.get('on_fail', self._on_fail)
 
     @property
+    def on_success(self):
+        return self.config.get('on_success', self._on_success)
+
+    @property
     def one_file(self):
         return self.config.get('one_file', self._one_file)
 
@@ -124,6 +129,9 @@ class Config(object):
     def has_on_fail(self):
         return self.on_fail is not None
 
+    def has_on_success(self):
+        return self.on_success is not None
+
 
 def start(**kwargs):
     c = Config(**kwargs)
@@ -131,6 +139,8 @@ def start(**kwargs):
     if not execute(c):
         if c.has_on_fail():
             subprocess.call(c.on_fail)
+    elif c.has_on_success():
+        subprocess.call(c.on_success)
 
 
 if __name__ == '__main__':

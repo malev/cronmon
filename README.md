@@ -35,7 +35,8 @@ Sample of a configuration file:
 name: cronmon
 command: ls
 location: /Users/malev/tmp
-on_fail: ls
+on_fail: fail-script.sh
+on_success: success-script.sh
 one_line: true
 ```
 

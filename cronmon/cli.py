@@ -11,11 +11,9 @@ def cli():
     has a small webserver to help you navigate your logs.
 
     Examples:\n
-        cronmon -c your-script.sh
-
-        cronmon -c your-script.sh -n your-project -f fail-script.sh
-
-        cronmon --config config.yml
+      cronmon run -c your-script.sh\n
+      cronmon run --config config.yml\n
+      cronmon serve -l ~/cronmon
     """
     pass
 
