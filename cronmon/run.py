@@ -87,7 +87,9 @@ class Config(object):
     '''
     def __init__(self, **config):
         self._command = config.get('command')
-        self._location = config.get('location', os.path.expanduser('~'))
+        self._location = config.get('location')
+        if config.get('location') is None:
+            self._location = os.path.expanduser('~')
         self._one_file = config.get('one_file', False)
         self._on_fail = config.get('on_fail')
         self._name = config.get('name')
