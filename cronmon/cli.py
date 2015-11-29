@@ -1,6 +1,5 @@
 import click
 import run as crun
-import log as clog
 import server as cserver
 
 
@@ -24,28 +23,20 @@ def cli():
 @cli.command()
 @click.option('-c', '--command', help='Command to execute', required=False, default=None)
 @click.option(
-    '-l', '--location', help='location where logfiles will be store', required=False, default=None)
+    '-l', '--location', help='location where logfiles will be store', required=False)
 @click.option('-f', '--on-fail', help='When failing run', required=False, default=None)
+@click.option('-s', '--on-success', help='When succeeding run', required=False, default=None)
 @click.option('--config', help='Configuration file', required=False, default=None)
 @click.option('-n', '--name', required=False, default='default')
-def run(command, location, on_fail, config, name):
+def run(command, location, on_fail, on_success, config, name):
     crun.start(
         command=command,
         location=location,
         on_fail=on_fail,
+        on_success=on_success,
         config=config,
         name=name
     )
-
-
-@cli.command()
-@click.option('-n', '--number', help='Number of log to show', required=False, default=None)
-@click.option(
-    '-l', '--location', help='Directory where logfiles will be store',
-    required=False, default="~/cronmon")
-@click.argument('name')
-def log(number, name):
-    clog.start(name, number)
 
 
 @cli.command()
